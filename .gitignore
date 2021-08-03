@@ -1,0 +1,14 @@
+# logfiles
+*.log
+
+# env
+.env
+.env.local
+.envrc
+
+# OS
+.DS_Store
+
+# VSCode
+.vscode/*
+!.vscode/extensions.json

@@ -1,0 +1,90 @@
+version: "3.8"
+
+services:
+  app:
+    image: ghcr.io/henken-club/prototype-backend:main
+    ports:
+      - published: 4000
+        target: 4000
+    environment:
+      GRAPHQL_PLAYGROUND: enable
+      JWT_ACCESS_SECRET: $APP_JWT_ACCESS_SECRET
+      JWT_REFRESH_SECRET: $APP_JWT_REFRESH_SECRET
+      NEO4J_USERNAME: $APP_NEO4J_USERNAME
+      NEO4J_PASSWORD: $APP_NEO4J_PASSWORD
+      NEO4J_URL: bolt://neo4j:7687
+      PRISMA_DATABASE_URL: mysql://root:$APP_MYSQL_ROOT_PASSWORD@mysql:3306/$APP_MYSQL_DATABASE
+      IMAGEPROXY_URL: http://localhost:8080
+    depends_on:
+      neo4j:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+      prisma-migrate:
+        condition: service_completed_successfully
+
+  neo4j:
+    image: neo4j:4.2
+    healthcheck:
+      test: wget http://localhost:7474/browser -O-
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    environment:
+      NEO4J_AUTH: $APP_NEO4J_USERNAME/$APP_NEO4J_PASSWORD
+      NEO4JLABS_PLUGINS: '["apoc"]'
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+      - neo4j-import:/var/lib/neo4j/import
+      - neo4j-plugins:/plugins
+
+  mysql:
+    image: mysql:8
+    healthcheck:
+      test: mysqladmin ping -h localhost
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    environment:
+      MYSQL_ROOT_PASSWORD: $APP_MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $APP_MYSQL_DATABASE
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  prisma-migrate:
+    image: ghcr.io/henken-club/prototype-backend-prisma-migrate:main
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      PRISMA_DATABASE_URL: mysql://root:$APP_MYSQL_ROOT_PASSWORD@mysql:3306/$APP_MYSQL_DATABASE
+
+  imageproxy:
+    image: willnorris/imageproxy:latest
+    ports:
+      - published: 8080
+        target: 8080
+    depends_on:
+      imageproxy-redis:
+        condition: service_healthy
+    environment:
+      IMAGEPROXY_CACHE: redis://imageproxy-redis:6379
+
+  imageproxy-redis:
+    image: redis:6
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - imageproxy-redis-data:/data
+
+volumes:
+  neo4j-data:
+  neo4j-logs:
+  neo4j-import:
+  neo4j-plugins:
+  mysql-data:
+  imageproxy-redis-data:
