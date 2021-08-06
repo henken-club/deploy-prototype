@@ -1,0 +1,17 @@
+{
+  "baseBranches": ["main"],
+  "extends": [
+    "config:base",
+
+    "schedule:weekly",
+    ":timezone(Asia/Tokyo)",
+
+    ":dependencyDashboard",
+
+    ":prHourlyLimit4",
+    ":prConcurrentLimit10",
+
+    "docker:pinDigests"
+  ],
+  "labels": ["renovate"]
+}
