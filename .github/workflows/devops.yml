@@ -17,3 +17,13 @@ jobs:
           node-version: 16.4.2
       - run: npx prettier --check *.{json,yml}
 
+  renovate-config-validator:
+    name: Renovate Config Validator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.4.2
+      - run: npx --package renovate -c 'renovate-config-validator'
+
