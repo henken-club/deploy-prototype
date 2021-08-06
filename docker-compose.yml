@@ -30,7 +30,7 @@ services:
       PRISMA_DATABASE_URL: mysql://$APP_MYSQL_USERNAME:$APP_MYSQL_PASSWORD@mysql:3306/$APP_MYSQL_DATABASE
 
   imgproxy:
-    image: darthsim/imgproxy:latest
+    image: darthsim/imgproxy:latest@sha256:dadbd505699a8f19795254e33cf62b0b8f6b461131860ee1e494d8369052da14
     ports:
       - published: $APP_IMGPROXY_PORT
         target: 8080
@@ -44,7 +44,7 @@ services:
       IMGPROXY_SALT: $APP_IMGPROXY_SALT
 
   neo4j:
-    image: neo4j:4.2
+    image: neo4j:4.2@sha256:6643ca7e43e399ade613e4e430548606f0ae48a865d78ea7dbd2615f725e442e
     healthcheck:
       test: wget http://localhost:7474/browser -O-
       interval: 5s
@@ -60,7 +60,7 @@ services:
       - neo4j-plugins:/plugins
 
   mysql:
-    image: mysql:8
+    image: mysql:8@sha256:8b928a5117cf5c2238c7a09cd28c2e801ac98f91c3f8203a8938ae51f14700fd
     healthcheck:
       test: mysqladmin ping -h localhost
       interval: 1s
@@ -75,7 +75,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   prisma-migrate:
-    image: ghcr.io/henken-club/prototype-backend-prisma-migrate:main
+    image: ghcr.io/henken-club/prototype-backend-prisma-migrate:main@sha256:0d5e1b218d1533802df1625e3b3735f1375e9373651d8de1673d61fae2acd520
     depends_on:
       mysql:
         condition: service_healthy
