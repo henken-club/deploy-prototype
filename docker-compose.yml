@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: ghcr.io/henken-club/prototype-backend:main@sha256:eeba3a3221d8d7df764941b69898f4e476f2ee8af309bc0dd56c2b6a45020a04
+    image: ghcr.io/henken-club/prototype-backend:main@sha256:b66e71ccbac3c6a4d720f01edffa0fe5eb8daac34e5c6c68563491543230f1ed
     ports:
       - published: 4000
         target: 4000
