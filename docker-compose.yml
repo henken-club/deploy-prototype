@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: ghcr.io/henken-club/prototype-backend:main@sha256:eeba3a3221d8d7df764941b69898f4e476f2ee8af309bc0dd56c2b6a45020a04
+    image: ghcr.io/henken-club/prototype-backend:develop@sha256:d871e6143ddb6ecdf7005383a3ca08a117b6f2b3ceaf92466984a78c837a9f66
     ports:
       - published: 4000
         target: 4000
@@ -23,11 +23,18 @@ services:
       IMGPROXY_KEY: $APP_IMGPROXY_KEY
       IMGPROXY_SALT: $APP_IMGPROXY_SALT
 
+      BOOKCOVER_PROXY_BASE_URL: http://bookcover-proxy:8080
+
       NEO4J_USERNAME: $APP_NEO4J_USERNAME
       NEO4J_PASSWORD: $APP_NEO4J_PASSWORD
       NEO4J_URL: bolt://neo4j:7687
 
       PRISMA_DATABASE_URL: mysql://$APP_MYSQL_USERNAME:$APP_MYSQL_PASSWORD@mysql:3306/$APP_MYSQL_DATABASE
+
+  bookcover-proxy:
+    image: ghcr.io/henken-club/bookcover-proxy:develop@sha256:a7bc67e11d43e235d8f08178e32a6bf585fd083b5141c166f29ee3da3ad689a6
+    environment:
+      PORT: 8080
 
   imgproxy:
     image: darthsim/imgproxy:latest@sha256:dadbd505699a8f19795254e33cf62b0b8f6b461131860ee1e494d8369052da14
@@ -75,7 +82,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   prisma-migrate:
-    image: ghcr.io/henken-club/prototype-backend-prisma-migrate:main@sha256:0d5e1b218d1533802df1625e3b3735f1375e9373651d8de1673d61fae2acd520
+    image: ghcr.io/henken-club/prototype-backend-prisma-migrate:develop@sha256:3658ce9b253a40782751821a4de1d89c4f37929230eb4b205871e47c61a06194
     depends_on:
       mysql:
         condition: service_healthy
