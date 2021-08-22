@@ -24,6 +24,7 @@ services:
       IMGPROXY_SALT: $APP_IMGPROXY_SALT
 
       BOOKCOVER_SERVICE_URL: bookcover-service:5000
+      AVATAR_SERVICE_URL: avatar-service:5000
 
       NEO4J_USERNAME: $APP_NEO4J_USERNAME
       NEO4J_PASSWORD: $APP_NEO4J_PASSWORD
@@ -33,6 +34,14 @@ services:
 
   bookcover-service:
     image: ghcr.io/henken-club/bookcover-grpc-service@sha256:691a4bd1fe5f1581038998b738e284981fcb6e39751c28c7e1773e05e35bec1c
+    environment:
+      PORT: 5000
+      IMGPROXY_BASE_URL: $APP_IMGPROXY_BASE_URL
+      IMGPROXY_KEY: $APP_IMGPROXY_KEY
+      IMGPROXY_SALT: $APP_IMGPROXY_SALT
+
+  avatar-service:
+    image: ghcr.io/henken-club/avatar-grpc-service@sha256:c41214dd8cfd2e4f6d7d53a251e04ee8a9f3a7c4683a0861f01b027f7e2ea882
     environment:
       PORT: 5000
       IMGPROXY_BASE_URL: $APP_IMGPROXY_BASE_URL
