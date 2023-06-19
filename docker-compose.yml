@@ -94,7 +94,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   prisma-migrate:
-    image: ghcr.io/henken-club/prototype-backend-prisma-migrate:develop@sha256:3658ce9b253a40782751821a4de1d89c4f37929230eb4b205871e47c61a06194
+    image: ghcr.io/henken-club/prototype-backend-prisma-migrate:develop@sha256:02f5720a973894cb97c6c3d67c6e02fbe542ea8f1ddf8a584adba281c60d1a20
     depends_on:
       mysql:
         condition: service_healthy
