@@ -63,7 +63,7 @@ services:
       IMGPROXY_SALT: $APP_IMGPROXY_SALT
 
   neo4j:
-    image: neo4j:4.2@sha256:6643ca7e43e399ade613e4e430548606f0ae48a865d78ea7dbd2615f725e442e
+    image: neo4j:4.4@sha256:c760d8a45aa4fd215650208bab8a5956c7fc643d0e0adda537cbdfc74f60f9ea
     healthcheck:
       test: wget http://localhost:7474/browser -O-
       interval: 5s
