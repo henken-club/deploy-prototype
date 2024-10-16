@@ -79,7 +79,7 @@ services:
       - neo4j-plugins:/plugins
 
   mysql:
-    image: mysql:8@sha256:8b928a5117cf5c2238c7a09cd28c2e801ac98f91c3f8203a8938ae51f14700fd
+    image: mysql:9@sha256:fd8d1b4e287c49e1e35eb5a103f337111947662130eb8a3e6c3e823813f47f7d
     healthcheck:
       test: mysqladmin ping -h localhost
       interval: 1s
