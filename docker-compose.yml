@@ -49,7 +49,7 @@ services:
       IMGPROXY_SALT: $APP_IMGPROXY_SALT
 
   imgproxy:
-    image: darthsim/imgproxy:latest@sha256:dadbd505699a8f19795254e33cf62b0b8f6b461131860ee1e494d8369052da14
+    image: darthsim/imgproxy:latest@sha256:345e0b6f700ac40fa4b95880426ebfd9007db8093dca20e6bcfe2af294413710
     ports:
       - published: $APP_IMGPROXY_PORT
         target: 8080
